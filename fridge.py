@@ -15,6 +15,7 @@ class Fridge(dict):
             raise ValueError('Only path or only file can be passed')
         if file is not None:
             self.file = file
+            self.close_file = False
         else:
             try:
                 self.file = open(path, 'r+')
@@ -23,6 +24,7 @@ class Fridge(dict):
                     self.file=open(path, 'w+')
                 else:
                     raise
+            self.close_file = True
         self.load()
         self.closed = False
 
@@ -33,17 +35,19 @@ class Fridge(dict):
             data = {}
         if not isinstance(data, dict):
             raise ValueError('Root JSON type must be dictionary')
+        self.clear()
         self.update(data)
 
     def save(self):
-        if not self.file.closed:
-            self.file.truncate(0)
-            self.file.seek(0)
-            json.dump(self, self.file)
+        self.file.truncate(0)
+        self.file.seek(0)
+        json.dump(self, self.file)
 
     def close(self):
-        self.save()
-        self.file.close()
+        if not self.closed:
+            self.save()
+            if self.close_file:
+                self.file.close()
         self.closed = True
 
     def __enter__(self):
