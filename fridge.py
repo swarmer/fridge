@@ -4,6 +4,18 @@ A persistent dict-like storage that uses JSON to store its contents.
 
 import json
 import errno
+import functools
+
+
+def check_open(fn):
+    """ Decorator that raises an error if the fridge is closed. """
+    @functools.wraps(fn)
+    def _fn(self, *args, **kwargs):
+        if self.closed:
+            raise ValueError('Operation on a closed fridge object')
+        else:
+            return fn(self, *args, **kwargs)
+    return _fn
 
 
 class Fridge(dict):
@@ -25,9 +37,10 @@ class Fridge(dict):
                 else:
                     raise
             self.close_file = True
-        self.load()
         self.closed = False
+        self.load()
 
+    @check_open
     def load(self):
         try:
             data = json.load(self.file)
@@ -38,6 +51,7 @@ class Fridge(dict):
         self.clear()
         self.update(data)
 
+    @check_open
     def save(self):
         self.file.truncate(0)
         self.file.seek(0)

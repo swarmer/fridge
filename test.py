@@ -72,3 +72,7 @@ class FridgeTest(unittest.TestCase):
         self.assertTrue(fridge.closed)
         self.assertFalse(self.buf.closed)
         self.assertEqual(self.buf.getvalue(), '{"a": "a"}')
+        with self.assertRaises(ValueError):
+            fridge.load()
+        with self.assertRaises(ValueError):
+            fridge.save()
