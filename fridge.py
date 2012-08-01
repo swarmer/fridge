@@ -2,6 +2,8 @@
 A persistent dict-like storage that uses JSON to store its contents.
 """
 
+__all__ = ['Fridge']
+
 import json
 import errno
 import functools
