@@ -82,7 +82,7 @@ class Fridge(dict):
         Close the fridge.
         Calls :meth:`save` and closes the underlying file object unless
         an already open file was passed to the constructor.
-        This method has no effect if the file is already closed.
+        This method has no effect if the object is already closed.
 
         After the fridge is closed :meth:`save` and :meth:`load` will raise an exception
         but you will still be able to use it as an ordinary dictionary.
