@@ -2,3 +2,5 @@ py.[co]
 __pycache__
 .directory
 doc/_build
+dist/
+MANIFEST
