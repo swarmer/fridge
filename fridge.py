@@ -1,7 +1,3 @@
-"""
-A persistent dict-like storage that uses JSON to store its contents.
-"""
-
 __all__ = ['Fridge']
 
 import json
@@ -9,18 +5,22 @@ import errno
 import functools
 
 
-def check_open(fn):
-    """ Decorator that raises an error if the fridge is closed. """
-    @functools.wraps(fn)
-    def _fn(self, *args, **kwargs):
-        if self.closed:
-            raise ValueError('Operation on a closed fridge object')
-        else:
-            return fn(self, *args, **kwargs)
-    return _fn
-
-
 class Fridge(dict):
+    """
+    Fridge is a subclass of :class:`dict` and thus fully conforms to its interface.
+
+    Fridge keeps an open file until it's closed, so you have to call :meth:`close`
+    when you're done using it.
+
+    Fridge implements :meth:`__enter__` and :meth:`__exit__` so you can use
+    `with` statement.
+
+    :param path: a path to a file that will be used to load and save the data
+    :param file: a file object that will be used to load and save the data.
+        This file object in not closed by fridge automatically.
+
+    `path` and `file` arguments are mutually exclusive
+    """
 
     def __init__(self, path=None, file=None):
         if path is None and file is None:
@@ -39,11 +39,24 @@ class Fridge(dict):
                 else:
                     raise
             self.close_file = True
+
+        #: True after :meth:`close` is called, False otherwise.
         self.closed = False
+
         self.load()
 
-    @check_open
+    def check_open(self):
+        if self.closed:
+            raise ValueError('Operation on a closed fridge object')
+
     def load(self):
+        """
+        Force reloading the data from the file.
+        All data in the in-memory dictionary is lost.
+        This method is called automatically by the constructor, normally you
+        don't need to call it.
+        """
+        self.check_open()
         try:
             data = json.load(self.file)
         except ValueError:
@@ -53,13 +66,27 @@ class Fridge(dict):
         self.clear()
         self.update(data)
 
-    @check_open
     def save(self):
+        """
+        Force saving the dictionary to the file.
+        All data in the file is lost.
+        This method is called automatically by :meth:`close`.
+        """
+        self.check_open()
         self.file.truncate(0)
         self.file.seek(0)
         json.dump(self, self.file)
 
     def close(self):
+        """
+        Close the fridge.
+        Calls :meth:`save` and closes the underlying file object unless
+        an already open file was passed to the constructor.
+        This method has no effect if the file is already closed.
+
+        After the fridge is closed :meth:`save` and :meth:`load` will raise an exception
+        but you will still be able to use it as an ordinary dictionary.
+        """
         if not self.closed:
             self.save()
             if self.close_file:
