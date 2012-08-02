@@ -31,6 +31,17 @@ class FridgeTest(unittest.TestCase):
             fridge['a'] = 'new_a'
         self.assertEqual(loads(self.buf.getvalue()), {'a': 'new_a', 'b': 'b'})
 
+    def test_update(self):
+        with Fridge(file=self.buf) as fridge:
+            fridge['n'] = 2
+            fridge['l'] = []
+        self.assertEqual(loads(self.buf.getvalue()), {'n': 2, 'l': []})
+        self.rewind()
+        with Fridge(file=self.buf) as fridge:
+            fridge['n'] += 1
+            fridge['l'].append('str')
+        self.assertEqual(loads(self.buf.getvalue()), {'n': 3, 'l': ['str']})
+
     def test_deletion(self):
         with Fridge(file=self.buf) as fridge:
             fridge['a'] = 'a'
