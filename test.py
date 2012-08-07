@@ -1,3 +1,6 @@
+# -*- coding: utf-8 -*-
+from __future__ import unicode_literals
+
 import unittest
 from json import loads
 try:
@@ -78,6 +81,20 @@ class FridgeTest(unittest.TestCase):
                     'float': 3.14,
                     'list': [{'num': 2}, [], 8.65]}
             self.assertEqual(fridge, data)
+
+    def test_unicode(self):
+        with Fridge(file=self.buf) as fridge:
+            fridge['str'] = 'a'
+            fridge['кириллица'] = 'я люблю пельмени'
+            fridge['mixed кодировка'] = 'смешанная encoding'
+            fridge['list'] = [{'борщ': 'с капусткой, но не красный'}, [], 8.65]
+        self.rewind()
+        with Fridge(file=self.buf) as fridge:
+            self.assertEqual(fridge['str'], 'a')
+            self.assertEqual(fridge['кириллица'], 'я люблю пельмени')
+            self.assertEqual(fridge['mixed кодировка'], 'смешанная encoding')
+            self.assertEqual(fridge['list'],
+                    [{'борщ': 'с капусткой, но не красный'}, [], 8.65])
 
     def test_close(self):
         fridge = Fridge(file=self.buf)
