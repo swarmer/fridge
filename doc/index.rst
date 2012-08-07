@@ -8,7 +8,7 @@ Welcome to Fridge's documentation!
 Fridge is a persistent dict-like object useful for storing settings
 or any other JSON-serializable data.
 
-Fridge currently supports only Python 3.
+Fridge officially supports Python 3.2 and 2.7.
 
 
 Quick start
