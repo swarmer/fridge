@@ -1,6 +1,9 @@
 import unittest
-import io
 from json import loads
+try:
+    from StringIO import StringIO
+except ImportError:
+    from io import StringIO
 
 from fridge import Fridge
 
@@ -8,7 +11,7 @@ from fridge import Fridge
 class FridgeTest(unittest.TestCase):
 
     def setUp(self):
-        self.buf = io.StringIO()
+        self.buf = StringIO()
 
     def rewind(self):
         self.buf.seek(0)
