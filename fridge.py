@@ -1,4 +1,5 @@
 __all__ = ['Fridge']
+__version__ = '0.1'
 
 import json
 import errno
