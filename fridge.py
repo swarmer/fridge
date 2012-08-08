@@ -46,7 +46,7 @@ class Fridge(dict):
 
         self.load()
 
-    def check_open(self):
+    def _check_open(self):
         if self.closed:
             raise ValueError('Operation on a closed fridge object')
 
@@ -57,7 +57,7 @@ class Fridge(dict):
         This method is called automatically by the constructor, normally you
         don't need to call it.
         """
-        self.check_open()
+        self._check_open()
         try:
             data = json.load(self.file)
         except ValueError:
@@ -73,7 +73,7 @@ class Fridge(dict):
         All data in the file is discarded.
         This method is called automatically by :meth:`close`.
         """
-        self.check_open()
+        self._check_open()
         self.file.truncate(0)
         self.file.seek(0)
         json.dump(self, self.file)
