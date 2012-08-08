@@ -20,7 +20,7 @@ class Fridge(dict):
     :param file: a file object that will be used to load and save the data.
         This file object in not closed by fridge automatically.
 
-    `path` and `file` arguments are mutually exclusive
+    `path` and `file` arguments are mutually exclusive.
     """
 
     def __init__(self, path=None, file=None):
