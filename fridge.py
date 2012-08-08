@@ -53,7 +53,7 @@ class Fridge(dict):
     def load(self):
         """
         Force reloading the data from the file.
-        All data in the in-memory dictionary is lost.
+        All data in the in-memory dictionary is discarded.
         This method is called automatically by the constructor, normally you
         don't need to call it.
         """
@@ -70,7 +70,7 @@ class Fridge(dict):
     def save(self):
         """
         Force saving the dictionary to the file.
-        All data in the file is lost.
+        All data in the file is discarded.
         This method is called automatically by :meth:`close`.
         """
         self.check_open()
