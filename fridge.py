@@ -3,7 +3,6 @@ __version__ = '0.1'
 
 import json
 import errno
-import functools
 
 
 class Fridge(dict):
