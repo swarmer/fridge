@@ -82,6 +82,20 @@ class FridgeTest(unittest.TestCase):
                     'list': [{'num': 2}, [], 8.65]}
             self.assertEqual(fridge, data)
 
+    def test_readonly(self):
+        with Fridge(file=self.buf) as fridge:
+            fridge['str'] = 'a'
+            fridge['int'] = 42
+        self.rewind()
+        ro = Fridge.readonly(file=self.buf)
+        self.assertEqual(ro['str'], 'a')
+        self.assertEqual(ro['int'], 42)
+        self.assertTrue(ro.closed)
+        with self.assertRaises(ValueError):
+            fridge.load()
+        with self.assertRaises(ValueError):
+            fridge.save()
+
     def test_unicode(self):
         with Fridge(file=self.buf) as fridge:
             fridge['str'] = 'a'

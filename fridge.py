@@ -23,6 +23,16 @@ class Fridge(dict):
     `path` and `file` arguments are mutually exclusive.
     """
 
+    @classmethod
+    def readonly(cls, *args, **kwargs):
+        """
+        Return an already closed read-only instance of Fridge.
+        Arguments are the same as for constructor.
+        """
+        fridge = cls(*args, **kwargs)
+        fridge.close()
+        return fridge
+
     def __init__(self, path=None, file=None):
         if path is None and file is None:
             raise ValueError('No path or file specified')
