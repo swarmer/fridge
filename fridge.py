@@ -18,6 +18,8 @@ class Fridge(dict):
     :param path: a path to a file that will be used to load and save the data
     :param file: a file object that will be used to load and save the data.
         This file object in not closed by fridge automatically.
+    :param dump_args: dictionary of arguments that are passed to :func:`json.dump`.
+    :param load_args: dictionary of arguments that are passed to :func:`json.load`.
 
     `path` and `file` arguments are mutually exclusive.
     """
@@ -32,11 +34,15 @@ class Fridge(dict):
         fridge.close()
         return fridge
 
-    def __init__(self, path=None, file=None):
+    def __init__(self, path=None, file=None, dump_args=None, load_args=None):
         if path is None and file is None:
             raise ValueError('No path or file specified')
         elif path is not None and file is not None:
             raise ValueError('Only path or only file can be passed')
+
+        self.dump_args = dump_args or {}
+        self.load_args = load_args or {}
+
         if file is not None:
             self.file = file
             self.close_file = False
@@ -68,7 +74,7 @@ class Fridge(dict):
         """
         self._check_open()
         try:
-            data = json.load(self.file)
+            data = json.load(self.file, **self.load_args)
         except ValueError:
             data = {}
         if not isinstance(data, dict):
@@ -85,7 +91,7 @@ class Fridge(dict):
         self._check_open()
         self.file.truncate(0)
         self.file.seek(0)
-        json.dump(self, self.file)
+        json.dump(self, self.file, **self.dump_args)
 
     def close(self):
         """

@@ -2,6 +2,7 @@
 from __future__ import unicode_literals
 
 import unittest
+import json
 from json import loads
 try:
     from StringIO import StringIO
@@ -95,6 +96,29 @@ class FridgeTest(unittest.TestCase):
             fridge.load()
         with self.assertRaises(ValueError):
             fridge.save()
+
+    def test_json_args(self):
+        _d = {}
+        def dump_wrapper(*args, **kwargs):
+            _d['dump_kwargs'] = kwargs
+        def load_wrapper(*args, **kwargs):
+            _d['load_kwargs'] = kwargs
+            return {}
+        _orig_dump = json.dump
+        _orig_load = json.load
+        json.dump = dump_wrapper
+        json.load = load_wrapper
+        try:
+            dump_args = {'dump_test': 1}
+            load_args = {'load_test': 2}
+            with Fridge(file=self.buf, dump_args=dump_args,
+                            load_args=load_args) as fridge:
+                fridge['a'] = 1
+            self.assertEqual(_d['dump_kwargs']['dump_test'], 1)
+            self.assertEqual(_d['load_kwargs']['load_test'], 2)
+        finally:
+            json.dump = _orig_dump
+            json.load = _orig_load
 
     def test_unicode(self):
         with Fridge(file=self.buf) as fridge:
