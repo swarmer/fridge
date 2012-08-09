@@ -24,6 +24,8 @@ class Fridge(dict):
     `path` and `file` arguments are mutually exclusive.
     """
 
+    default_args = {}
+
     @classmethod
     def readonly(cls, *args, **kwargs):
         """
@@ -34,11 +36,28 @@ class Fridge(dict):
         fridge.close()
         return fridge
 
-    def __init__(self, path=None, file=None, dump_args=None, load_args=None):
+    @classmethod
+    def _getdefault(cls):
+        default = cls.default_args
+        path = default.get('path')
+        file = default.get('file')
+        return path, file
+
+    def __new__(cls, path=None, file=None, *args, **kwargs):
+        if path is None and file is None:
+            path, file = cls._getdefault()
+
         if path is None and file is None:
             raise ValueError('No path or file specified')
         elif path is not None and file is not None:
             raise ValueError('Only path or only file can be passed')
+
+        fridge = super(Fridge, cls).__new__(cls)
+        return fridge
+
+    def __init__(self, path=None, file=None, dump_args=None, load_args=None):
+        if path is None and file is None:
+            path, file = self._getdefault()
 
         self.dump_args = dump_args or {}
         self.load_args = load_args or {}

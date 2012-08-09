@@ -120,6 +120,16 @@ class FridgeTest(unittest.TestCase):
             json.dump = _orig_dump
             json.load = _orig_load
 
+    def test_default(self):
+        Fridge.default_args = {}
+        with self.assertRaises(ValueError):
+            fridge = Fridge()
+
+        Fridge.default_args = {'file': self.buf}
+        with Fridge() as fridge:
+            fridge['a'] = 'a'
+        self.assertEqual(self.buf.getvalue(), '{"a": "a"}')
+
     def test_unicode(self):
         with Fridge(file=self.buf) as fridge:
             fridge['str'] = 'a'
