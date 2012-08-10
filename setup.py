@@ -2,7 +2,7 @@ from distutils.core import setup
 
 
 setup(name='Fridge',
-        version='0.1',
+        version='0.2',
         py_modules=['fridge'],
         description='Persistent JSON-encoded dictionary',
         author='Anton Barkovsky',
