@@ -9,7 +9,7 @@ setup(name='Fridge',
         author_email='swarmer.pm@gmail.com',
         url='https://github.com/swarmer/fridge',
         classifiers=[
-            'Development Status :: 3 - Alpha',
+            'Development Status :: 4 - Beta',
             'Intended Audience :: Developers',
             'License :: OSI Approved :: MIT License',
             'Operating System :: OS Independent',
