@@ -1,0 +1,77 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+    <title>Fridge by swarmer</title>
+    <link rel="stylesheet" href="stylesheets/styles.css">
+    <link rel="stylesheet" href="stylesheets/pygment_trac.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
+    <script src="javascripts/respond.js"></script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <!--[if lt IE 8]>
+    <link rel="stylesheet" href="stylesheets/ie.css">
+    <![endif]-->
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+
+  </head>
+  <body>
+      <div id="header">
+        <nav>
+          <li class="fork"><a href="https://github.com/swarmer/fridge">View On GitHub</a></li>
+          <li class="downloads"><a href="https://github.com/swarmer/fridge/zipball/master">ZIP</a></li>
+          <li class="downloads"><a href="https://github.com/swarmer/fridge/tarball/master">TAR</a></li>
+          <li class="title">DOWNLOADS</li>
+        </nav>
+      </div><!-- end header -->
+
+    <div class="wrapper">
+
+      <section>
+        <div id="title">
+          <h1>Fridge</h1>
+          <p>A persistent dict-like object.</p>
+          <hr>
+          <span class="credits left">Project maintained by <a href="https://github.com/swarmer">swarmer</a></span>
+          <span class="credits right">Hosted on GitHub Pages &mdash; Theme by <a href="http://twitter.com/#!/michigangraham">mattgraham</a></span>
+        </div>
+
+        <h1>Fridge</h1>
+
+<p>Fridge is a persistent dict-like object that uses JSON to store its contents.</p>
+
+<p>Fridge officially supports Python 3.2 and 2.7.</p>
+
+<h2>Quick start</h2>
+
+<div class="highlight"><pre>    <span class="kn">from</span> <span class="nn">fridge</span> <span class="kn">import</span> <span class="n">Fridge</span>
+
+    <span class="k">with</span> <span class="n">Fridge</span><span class="p">(</span><span class="s">'/home/user/config'</span><span class="p">)</span> <span class="k">as</span> <span class="n">fr</span><span class="p">:</span>
+        <span class="n">username</span> <span class="o">=</span> <span class="n">fr</span><span class="p">[</span><span class="s">'username'</span><span class="p">]</span>
+        <span class="n">password</span> <span class="o">=</span> <span class="n">fr</span><span class="p">[</span><span class="s">'password'</span><span class="p">]</span>
+        <span class="n">fr</span><span class="o">.</span><span class="n">setdefault</span><span class="p">(</span><span class="s">'login_count'</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+        <span class="n">fr</span><span class="p">[</span><span class="s">'login_count'</span><span class="p">]</span> <span class="o">+=</span> <span class="mi">1</span>
+</pre></div>
+
+<h2>Documentation</h2>
+
+<p><a href="http://fridge.readthedocs.org/">http://fridge.readthedocs.org/</a></p>
+
+<h2>Installation</h2>
+
+<p><code>pip install fridge</code></p>
+
+<p>Or just grab <code>fridge.py</code>.</p>
+
+<h2>License</h2>
+
+<p>MIT (see LICENSE.txt).</p>
+      </section>
+
+    </div>
+    <!--[if !IE]><script>fixScale(document);</script><![endif]-->
+    
+  </body>
+</html>
