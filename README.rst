@@ -24,9 +24,9 @@ http://fridge.readthedocs.org/
 
 Installation
 ============
-`pip install fridge`
+``pip install fridge``
 
-Or just grab `fridge.py`.
+Or just grab ``fridge.py``.
 
 License
 =======
