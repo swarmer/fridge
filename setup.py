@@ -7,7 +7,7 @@ setup(name='Fridge',
         description='Persistent JSON-encoded dictionary',
         author='Anton Barkovsky',
         author_email='swarmer.pm@gmail.com',
-        url='https://github.com/swarmer/fridge',
+        url='http://swarmer.github.com/fridge/',
         classifiers=[
             'Development Status :: 4 - Beta',
             'Intended Audience :: Developers',
