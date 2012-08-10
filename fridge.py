@@ -62,6 +62,9 @@ class Fridge(dict):
         self.dump_args = dump_args or {}
         self.load_args = load_args or {}
 
+        # so that __del__ doesn't try to close the file if its opening fails
+        self.closed = False
+
         if file is not None:
             self.file = file
             self.close_file = False
